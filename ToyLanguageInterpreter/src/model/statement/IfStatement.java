@@ -36,7 +36,12 @@ public class IfStatement implements MyIStatement {
     }
 
     @Override
+    public MyIStatement deepCopy() {
+        return new IfStatement(this.statementThan.deepCopy(),  this.statementElse.deepCopy(),  this.expression.deepCopy());
+    }
+
+    @Override
     public String toString(){
-        return "if(" + expression + "){" + this.statementThan + "}else{" + this.statementElse + "}\n";
+        return "if(" + expression + "){" + this.statementThan + "}else{" + this.statementElse + "}";
     }
 }
