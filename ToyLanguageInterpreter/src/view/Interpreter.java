@@ -1,13 +1,12 @@
 package view;
 
 import controller.Controller;
-import model.expressions.ArithmeticalExpression;
-import model.expressions.AritmeticalOperator;
-import model.expressions.ValueExpression;
-import model.expressions.VariableExpression;
+import model.expressions.*;
+import model.state.PrgState;
 import model.statement.*;
 import model.types.MyBoolType;
 import model.types.MyIntType;
+import model.types.RefType;
 import model.types.StringType;
 import model.value.MyBoolValue;
 import model.value.MyIntValue;
@@ -39,12 +38,53 @@ public class Interpreter {
         Controller controller4 = new Controller(repository4);
         controller4.add(statement4);
 
+        MyIStatement statement5 = new CompStatement(new VarDeclStatement("v", new RefType(new MyIntType())),
+                new CompStatement(new HeapAllocationStatement("v", new ValueExpression(new MyIntValue(20))),
+                        new CompStatement(new PrintStatement(new HeapReading(new VariableExpression("v"))),
+                                new CompStatement(new HeapWriting("v", new ValueExpression(new MyIntValue(30))),
+                                        new PrintStatement(new ArithmeticalExpression(new HeapReading(new VariableExpression("v")), AritmeticalOperator.ADD, new ValueExpression(new MyIntValue(5))))))));
+        IRepository repository5 = new Repository("log5.txt");
+        Controller controller5 = new Controller(repository5);
+        controller5.add(statement5);
+
+        MyIStatement statement6 = new CompStatement(new VarDeclStatement("v", new RefType(new MyIntType())),
+                new CompStatement(new HeapAllocationStatement("v", new ValueExpression(new MyIntValue(20))),
+                        new CompStatement(new VarDeclStatement("a", new RefType(new RefType(new MyIntType()))),
+                                new CompStatement(new HeapAllocationStatement("a", new VariableExpression("v")),
+                                        new CompStatement(new HeapAllocationStatement("v", new ValueExpression(new MyIntValue(30))),
+                                                new PrintStatement(new HeapReading(new HeapReading(new VariableExpression("a")))))))));
+        IRepository repository6 = new Repository("log6.txt");
+        Controller controller6 = new Controller(repository6);
+        controller6.add(statement6);
+
+        MyIStatement statement7 = new CompStatement(new VarDeclStatement("v", new RefType(new MyIntType())),
+                new CompStatement(new HeapAllocationStatement("v", new ValueExpression(new MyIntValue(20))),
+                        new CompStatement(new PrintStatement(new HeapReading(new VariableExpression("v"))),
+                                new CompStatement(new HeapWriting("v", new ValueExpression(new MyIntValue(30))),
+                                        new CompStatement(new HeapAllocationStatement("v", new ValueExpression(new MyIntValue(50))),
+                                                new PrintStatement(new ArithmeticalExpression(new HeapReading(new VariableExpression("v")), AritmeticalOperator.ADD, new ValueExpression(new MyIntValue(5)))))))));
+        IRepository repository7 = new Repository("log7.txt");
+        Controller controller7 = new Controller(repository7);
+        controller7.add(statement7);
+
+        MyIStatement statement8 = new CompStatement(new VarDeclStatement("v", new MyIntType()),
+                new CompStatement(new AssignStatement("v", new ValueExpression(new MyIntValue(4))),
+                        new CompStatement(new WhileStatement(new RelationalExpression(new VariableExpression("v"), new ValueExpression(new MyIntValue(0)), RelationalOperator.GREATER), new CompStatement(new PrintStatement(new VariableExpression("v")), new AssignStatement("v", new ArithmeticalExpression(new VariableExpression("v"), AritmeticalOperator.SUBTRACT, new ValueExpression(new MyIntValue(1)))))),
+                                new PrintStatement(new VariableExpression("v")))));
+        IRepository repository8 = new Repository("log8.txt");
+        Controller controller8 = new Controller(repository8);
+        controller8.add(statement8);
+
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "exit"));
         menu.addCommand(new RunExampleCommand("1", statement1.toString(), controller1));
         menu.addCommand(new RunExampleCommand("2", statement2.toString(), controller2));
         menu.addCommand(new RunExampleCommand("3", statement3.toString(), controller3));
         menu.addCommand(new RunExampleCommand("4", statement4.toString(), controller4));
+        menu.addCommand(new RunExampleCommand("5", statement5.toString(), controller5));
+        menu.addCommand(new RunExampleCommand("6", statement6.toString(), controller6));
+        menu.addCommand(new RunExampleCommand("7", statement7.toString(), controller7));
+        menu.addCommand(new RunExampleCommand("8", statement8.toString(), controller8));
         menu.show();
     }
 }
