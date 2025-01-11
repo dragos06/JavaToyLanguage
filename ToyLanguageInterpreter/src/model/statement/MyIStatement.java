@@ -7,5 +7,6 @@ import model.state.PrgState;
 
 public interface MyIStatement {
     PrgState execute(PrgState prgState) throws StatementException, ADTException, ExpressionException;
-
+    MyIStatement deepCopy();
+    String toString();
 }
