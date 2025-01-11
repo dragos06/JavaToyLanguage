@@ -18,4 +18,9 @@ public class MyBoolType implements MyIType{
     public MyIValue getDefaultValue() {
         return new MyBoolValue(false);
     }
+
+    @Override
+    public MyIType deepCopy() {
+        return new MyBoolType();
+    }
 }
