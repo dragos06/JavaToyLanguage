@@ -17,8 +17,14 @@ public class VarDeclStatement implements MyIStatement {
 
     @Override
     public PrgState execute(PrgState prgState) throws StatementException, ADTException, ExpressionException {
+        // TO CHECK IF VARIABLE ALREADY EXISTS
         prgState.getSymTable().insert(this.name, this.type.getDefaultValue());
         return prgState;
+    }
+
+    @Override
+    public MyIStatement deepCopy() {
+        return new VarDeclStatement(new String(this.name), this.type.deepCopy());
     }
 
     @Override
