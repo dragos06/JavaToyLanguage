@@ -18,6 +18,11 @@ public class AssignStatement implements MyIStatement {
     }
 
     @Override
+    public MyIStatement deepCopy() {
+        return new AssignStatement(new String(this.variableName), this.expression.deepCopy());
+    }
+
+    @Override
     public PrgState execute(PrgState prgState) throws StatementException, ADTException, ExpressionException {
         if (!prgState.getSymTable().contains(this.variableName)) {
             throw new StatementException("Variable was not found");
