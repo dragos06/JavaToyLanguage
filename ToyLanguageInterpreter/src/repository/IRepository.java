@@ -11,4 +11,5 @@ public interface IRepository {
     List<PrgState> getAllPrg();
     void next();
     void logPrgStateExec() throws RepoException;
+    void clearFile() throws RepoException;
 }

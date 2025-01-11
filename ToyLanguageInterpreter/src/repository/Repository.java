@@ -51,4 +51,14 @@ public class Repository implements IRepository {
             throw new RepoException("File does not exist");
         }
     }
+
+    @Override
+    public void clearFile() throws RepoException {
+        try {
+            PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(this.filename, false)));
+            logFile.write("");
+        } catch (IOException err) {
+            throw new RepoException("Could not clear the file");
+        }
+    }
 }
