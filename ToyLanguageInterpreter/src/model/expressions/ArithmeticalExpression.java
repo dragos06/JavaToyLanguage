@@ -19,6 +19,11 @@ public class ArithmeticalExpression implements MyIExpression {
     }
 
     @Override
+    public MyIExpression deepCopy() {
+        return new ArithmeticalExpression(this.left.deepCopy(), this.operator, this.right.deepCopy());
+    }
+
+    @Override
     public MyIValue eval(MyIDictionary<String, MyIValue> sym_table) throws ADTException, ExpressionException {
         MyIValue value1 = this.left.eval(sym_table);
         MyIValue value2 = this.right.eval(sym_table);
@@ -47,5 +52,10 @@ public class ArithmeticalExpression implements MyIExpression {
             default:
                 throw new ExpressionException("Unknown operator");
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.left.toString() + " " + this.operator + " " + this.right.toString();
     }
 }
