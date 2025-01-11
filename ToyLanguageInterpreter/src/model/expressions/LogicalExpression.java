@@ -41,6 +41,11 @@ public class LogicalExpression implements MyIExpression {
     }
 
     @Override
+    public MyIExpression deepCopy() {
+        return new LogicalExpression(this.left.deepCopy(),  this.right.deepCopy(), this.operator);
+    }
+
+    @Override
     public String toString() {
         return left.toString() + " " + operator + " " + right.toString();
     }
