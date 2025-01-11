@@ -18,4 +18,9 @@ public class MyIntType implements MyIType {
     public MyIValue getDefaultValue() {
         return new MyIntValue(0);
     }
+
+    @Override
+    public MyIType deepCopy() {
+        return new MyIntType();
+    }
 }
