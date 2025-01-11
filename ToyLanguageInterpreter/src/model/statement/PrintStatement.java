@@ -25,6 +25,11 @@ public class PrintStatement implements MyIStatement {
     }
 
     @Override
+    public MyIStatement deepCopy() {
+        return new PrintStatement(this.expression.deepCopy());
+    }
+
+    @Override
     public String toString() {
         return "print(" + expression.toString() + ")";
     }
