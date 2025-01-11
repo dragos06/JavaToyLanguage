@@ -9,6 +9,11 @@ public class NopStatement implements MyIStatement {
     }
 
     @Override
+    public MyIStatement deepCopy() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "NopStatement";
     }
