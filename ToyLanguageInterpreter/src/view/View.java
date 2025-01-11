@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.RepoException;
 import exception.StatementException;
 import model.adt.MyIStack;
 import model.expressions.ArithmeticalExpression;
@@ -46,7 +47,7 @@ public class View {
                     this.controller.add(statement);
                     try {
                         this.controller.allStep();
-                    } catch (StatementException | ADTException | ExpressionException e) {
+                    } catch (StatementException | ADTException | ExpressionException | RepoException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -56,7 +57,7 @@ public class View {
                     this.controller.add(statement);
                     try {
                         this.controller.allStep();
-                    } catch (StatementException | ADTException | ExpressionException e) {
+                    } catch (StatementException | ADTException | ExpressionException | RepoException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
@@ -66,7 +67,7 @@ public class View {
                     this.controller.add(statement);
                     try {
                         this.controller.allStep();
-                    } catch (StatementException | ADTException | ExpressionException e) {
+                    } catch (StatementException | ADTException | ExpressionException |RepoException e) {
                         System.out.println(e.getMessage());
                     }
                     break;
