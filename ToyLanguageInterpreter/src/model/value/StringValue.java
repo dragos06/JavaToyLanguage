@@ -23,6 +23,7 @@ public class StringValue implements MyIValue {
         this.value = value;
     }
 
+    @Override
     public boolean equals(MyIValue val) {
         return val.getType().equals(new StringType()) && ((StringValue) val).getValue().equals(this.value);
     }
