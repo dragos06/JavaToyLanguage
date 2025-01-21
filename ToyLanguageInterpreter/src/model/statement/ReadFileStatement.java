@@ -31,7 +31,7 @@ public class ReadFileStatement implements MyIStatement {
         if (!prgState.getSymTable().getValue(this.var_name).getType().equals(new MyIntType())) {
             throw new StatementException("Variable is not of type int");
         }
-        MyIValue evalValue = exp.eval(prgState.getSymTable());
+        MyIValue evalValue = exp.eval(prgState.getSymTable(), prgState.getHeapTable());
         if (!evalValue.getType().equals(new StringType())) {
             throw new StatementException("Expression is not of type string");
         }
