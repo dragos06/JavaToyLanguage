@@ -2,8 +2,10 @@ package model.expressions;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import model.adt.MyIDictionary;
 import model.adt.MyIHeap;
+import model.types.MyIType;
 import model.types.MyIntType;
 import model.value.MyIValue;
 import model.value.MyIntValue;
@@ -52,6 +54,24 @@ public class ArithmeticalExpression implements MyIExpression {
             }
             default:
                 throw new ExpressionException("Unknown operator");
+        }
+    }
+
+    @Override
+    public MyIType typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException {
+        MyIType typ1, typ2;
+        typ1 = left.typecheck(typeEnv);
+        typ2 = right.typecheck(typeEnv);
+        if (typ1.equals(new MyIntType())){
+            if (typ2.equals(new MyIntType())){
+                return new MyIntType();
+            }
+            else{
+                throw new ExpressionException("second operand is not an integer");
+            }
+        }
+        else{
+            throw new ExpressionException("first operand is not an integer");
         }
     }
 

@@ -2,7 +2,9 @@ package model.statement;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import exception.StatementException;
+import model.adt.MyIDictionary;
 import model.expressions.MyIExpression;
 import model.state.PrgState;
 import model.value.MyIValue;
@@ -36,6 +38,18 @@ public class AssignStatement implements MyIStatement {
         prgState.getSymTable().insert(this.variableName, evalValue);
         return null;
 
+    }
+
+    @Override
+    public MyIDictionary<String, MyIType> typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException, StatementException {
+        MyIType typevar = typeEnv.getValue(variableName);
+        MyIType typexp = expression.typecheck(typeEnv);
+        if(typevar.equals(typexp)){
+            return typeEnv;
+        }
+        else{
+            throw new StatementException("Assignment: right hand side and left hand side have different types");
+        }
     }
 
     @Override

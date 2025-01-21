@@ -2,9 +2,11 @@ package model.expressions;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import model.adt.MyIDictionary;
 import model.adt.MyIHeap;
 import model.types.MyBoolType;
+import model.types.MyIType;
 import model.value.MyBoolValue;
 import model.value.MyIValue;
 
@@ -44,6 +46,24 @@ public class LogicalExpression implements MyIExpression {
     @Override
     public MyIExpression deepCopy() {
         return new LogicalExpression(this.left.deepCopy(),  this.right.deepCopy(), this.operator);
+    }
+
+    @Override
+    public MyIType typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException {
+        MyIType typ1, typ2;
+        typ1 = left.typecheck(typeEnv);
+        typ2 = right.typecheck(typeEnv);
+        if(typ1.equals(new MyBoolType())){
+            if(typ2.equals(new MyBoolType())){
+                return new MyBoolType();
+            }
+            else{
+                throw new ExpressionException("second operand is not a bool");
+            }
+        }
+        else{
+            throw new ExpressionException("first operand is not a bool");
+        }
     }
 
     @Override

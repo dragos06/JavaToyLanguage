@@ -2,7 +2,9 @@ package model.statement;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import exception.StatementException;
+import model.adt.MyIDictionary;
 import model.expressions.MyIExpression;
 import model.state.PrgState;
 import model.types.MyIType;
@@ -43,6 +45,17 @@ public class HeapWriting implements MyIStatement {
     @Override
     public MyIStatement deepCopy() {
         return new HeapWriting(new String(this.var_name), this.expression.deepCopy());
+    }
+
+    @Override
+    public MyIDictionary<String, MyIType> typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException, StatementException {
+        MyIType typevar = typeEnv.getValue(this.var_name);
+        MyIType typexp = this.expression.typecheck(typeEnv);
+        if (typevar.equals(new RefType(typexp))) {
+            return typeEnv;
+        } else {
+            throw new StatementException("HeapWriting: right hand side and left hand side have different types");
+        }
     }
 
     @Override

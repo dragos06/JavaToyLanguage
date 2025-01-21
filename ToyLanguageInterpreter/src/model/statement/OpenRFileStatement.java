@@ -2,9 +2,12 @@ package model.statement;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import exception.StatementException;
+import model.adt.MyIDictionary;
 import model.expressions.MyIExpression;
 import model.state.PrgState;
+import model.types.MyIType;
 import model.types.MyIntType;
 import model.types.StringType;
 import model.value.MyIValue;
@@ -40,6 +43,12 @@ public class OpenRFileStatement implements MyIStatement {
     @Override
     public MyIStatement deepCopy() {
         return new OpenRFileStatement(this.exp.deepCopy());
+    }
+
+    @Override
+    public MyIDictionary<String, MyIType> typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException, StatementException {
+        this.exp.typecheck(typeEnv);
+        return typeEnv;
     }
 
     @Override

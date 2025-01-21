@@ -2,12 +2,13 @@ package model.statement;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import exception.StatementException;
+import model.adt.MyIDictionary;
 import model.state.PrgState;
 import model.expressions.MyIExpression;
+import model.types.MyIType;
 import model.value.MyIValue;
-
-import javax.naming.ldap.ExtendedRequest;
 
 
 public class PrintStatement implements MyIStatement {
@@ -27,6 +28,12 @@ public class PrintStatement implements MyIStatement {
     @Override
     public MyIStatement deepCopy() {
         return new PrintStatement(this.expression.deepCopy());
+    }
+
+    @Override
+    public MyIDictionary<String, MyIType> typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException, StatementException {
+        this.expression.typecheck(typeEnv);
+        return typeEnv;
     }
 
     @Override

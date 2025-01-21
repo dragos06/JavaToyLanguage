@@ -1,9 +1,10 @@
 package model.expressions;
 
-import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import model.adt.MyIDictionary;
 import model.adt.MyIHeap;
+import model.types.MyIType;
 import model.value.MyIValue;
 
 public class ValueExpression implements MyIExpression {
@@ -21,6 +22,11 @@ public class ValueExpression implements MyIExpression {
     @Override
     public MyIExpression deepCopy() {
         return new ValueExpression(this.value);
+    }
+
+    @Override
+    public MyIType typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException {
+        return value.getType();
     }
 
     @Override

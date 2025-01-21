@@ -2,7 +2,9 @@ package model.statement;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import exception.StatementException;
+import model.adt.MyIDictionary;
 import model.state.PrgState;
 import model.types.MyIType;
 
@@ -28,6 +30,12 @@ public class VarDeclStatement implements MyIStatement {
     @Override
     public MyIStatement deepCopy() {
         return new VarDeclStatement(new String(this.name), this.type.deepCopy());
+    }
+
+    @Override
+    public MyIDictionary<String, MyIType> typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException, StatementException {
+        typeEnv.insert(this.name, this.type);
+        return typeEnv;
     }
 
     @Override

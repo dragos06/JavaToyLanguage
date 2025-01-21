@@ -2,6 +2,7 @@ package model.expressions;
 
 import exception.ADTException;
 import exception.ExpressionException;
+import exception.KeyNotFoundException;
 import model.adt.MyIDictionary;
 import model.adt.MyIHeap;
 import model.types.MyIType;
@@ -30,6 +31,17 @@ public class HeapReading implements MyIExpression {
     @Override
     public MyIExpression deepCopy() {
         return new HeapReading(this.expression.deepCopy());
+    }
+
+    @Override
+    public MyIType typecheck(MyIDictionary<String, MyIType> typeEnv) throws ExpressionException, KeyNotFoundException {
+        MyIType typ = expression.typecheck(typeEnv);
+        if(typ instanceof RefType refType){
+            return refType.getInner();
+        }
+        else{
+            throw new ExpressionException("the rH argument is not a Ref Type");
+        }
     }
 
     @Override
