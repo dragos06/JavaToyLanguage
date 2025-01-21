@@ -21,7 +21,7 @@ public class PrintStatement implements MyIStatement {
     public PrgState execute(PrgState prgState) throws ADTException, ExpressionException {
         MyIValue result = this.expression.eval(prgState.getSymTable(), prgState.getHeapTable());
         prgState.getOutput().add(result.toString());
-        return prgState;
+        return null;
     }
 
     @Override

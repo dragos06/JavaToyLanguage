@@ -35,7 +35,7 @@ public class CloseRFileStatement implements MyIStatement {
             throw new StatementException("Couldn't close buffer");
         }
         prgState.getFileTable().remove((StringValue) evalValue);
-        return prgState;
+        return null;
     }
 
     @Override

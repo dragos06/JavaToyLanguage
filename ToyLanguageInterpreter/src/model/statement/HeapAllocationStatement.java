@@ -34,7 +34,7 @@ public class HeapAllocationStatement implements MyIStatement {
         }
         Integer adr = prgState.getHeapTable().insert(evalValue);
         prgState.getSymTable().insert(this.variableName, new RefValue(adr, evalValue.getType()));
-        return prgState;
+        return null;
     }
 
     @Override

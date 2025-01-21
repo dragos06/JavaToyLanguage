@@ -6,6 +6,7 @@ import exception.StatementException;
 import model.expressions.MyIExpression;
 import model.state.PrgState;
 import model.value.MyIValue;
+import model.types.MyIType;
 
 public class AssignStatement implements MyIStatement {
 
@@ -33,7 +34,7 @@ public class AssignStatement implements MyIStatement {
             throw new StatementException("Value type mismatch");
         }
         prgState.getSymTable().insert(this.variableName, evalValue);
-        return prgState;
+        return null;
 
     }
 

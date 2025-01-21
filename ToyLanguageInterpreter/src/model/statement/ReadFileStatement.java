@@ -52,7 +52,7 @@ public class ReadFileStatement implements MyIStatement {
         } catch (IOException e) {
             throw new StatementException("Line cannot be read");
         }
-        return prgState;
+        return null;
     }
 
     @Override

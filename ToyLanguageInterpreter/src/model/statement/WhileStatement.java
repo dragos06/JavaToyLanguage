@@ -29,7 +29,7 @@ public class WhileStatement implements MyIStatement {
             prgState.getExeStack().push(this);
             prgState.getExeStack().push(statement);
         }
-        return prgState;
+        return null;
     }
 
     @Override

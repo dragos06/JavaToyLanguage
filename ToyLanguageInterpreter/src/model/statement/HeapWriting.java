@@ -37,7 +37,7 @@ public class HeapWriting implements MyIStatement {
             throw new StatementException("Variable type in SymTable and HeapTable doesn't match");
         }
         prgState.getHeapTable().update(refValue.getAddress(), evalValue);
-        return prgState;
+        return null;
     }
 
     @Override

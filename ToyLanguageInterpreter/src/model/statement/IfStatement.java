@@ -32,7 +32,7 @@ public class IfStatement implements MyIStatement {
             prgState.getExeStack().push(this.statementElse);
         }
 
-        return prgState;
+        return null;
     }
 
     @Override

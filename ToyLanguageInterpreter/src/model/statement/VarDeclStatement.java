@@ -22,7 +22,7 @@ public class VarDeclStatement implements MyIStatement {
         }
 
         prgState.getSymTable().insert(this.name, this.type.getDefaultValue());
-        return prgState;
+        return null;
     }
 
     @Override

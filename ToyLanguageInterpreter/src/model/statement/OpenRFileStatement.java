@@ -34,7 +34,7 @@ public class OpenRFileStatement implements MyIStatement {
         } catch (IOException | IOError e) {
             throw new StatementException("File does not exist");
         }
-        return prgState;
+        return null;
     }
 
     @Override
