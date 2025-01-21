@@ -22,7 +22,7 @@ public class IfStatement implements MyIStatement {
 
     @Override
     public PrgState execute(PrgState prgState) throws StatementException, ADTException, ExpressionException {
-        MyIValue value = expression.eval(prgState.getSymTable());
+        MyIValue value = expression.eval(prgState.getSymTable(), prgState.getHeapTable());
         if (!value.getType().equals(new MyBoolType())) {
             throw new StatementException("Expression is not boolean");
         }
