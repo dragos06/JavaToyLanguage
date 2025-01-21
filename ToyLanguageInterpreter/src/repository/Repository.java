@@ -12,12 +12,10 @@ import java.util.List;
 
 public class Repository implements IRepository {
     private List<PrgState> prgStateList;
-    private int index;
     private String filename;
 
     public Repository(String filename) {
         this.prgStateList = new ArrayList<>();
-        this.index = 0;
         this.filename = filename;
     }
 
@@ -27,25 +25,20 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public PrgState getCrtPrg() {
-        return this.prgStateList.get(this.index);
-    }
-
-    @Override
-    public void next() {
-        this.index++;
-    }
-
-    @Override
-    public List<PrgState> getAllPrg() {
+    public List<PrgState> getPrgList() {
         return this.prgStateList;
     }
 
     @Override
-    public void logPrgStateExec() throws RepoException {
+    public void setPrgList(List<PrgState> prgList) {
+        this.prgStateList = prgList;
+    }
+
+    @Override
+    public void logPrgStateExec(PrgState prgState) throws RepoException {
         try {
             PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(this.filename, true)));
-            logFile.println(this.getCrtPrg().toString());
+            logFile.println(prgState.toString());
             logFile.close();
         } catch (IOException err) {
             throw new RepoException("File does not exist");
