@@ -15,7 +15,6 @@ import repository.IRepository;
 import controller.Controller;
 import view.Interpreter;
 import view.TextMenu;
-import view.View;
 import view.commands.ExitCommand;
 import view.commands.RunExampleCommand;
 
