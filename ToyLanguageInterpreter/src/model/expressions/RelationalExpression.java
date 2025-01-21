@@ -3,6 +3,7 @@ package model.expressions;
 import exception.ADTException;
 import exception.ExpressionException;
 import model.adt.MyIDictionary;
+import model.adt.MyIHeap;
 import model.types.MyIntType;
 import model.value.MyBoolValue;
 import model.value.MyIValue;
@@ -20,9 +21,9 @@ public class RelationalExpression implements MyIExpression{
     }
 
     @Override
-    public MyIValue eval(MyIDictionary<String, MyIValue> sym_table) throws ADTException, ExpressionException {
-        MyIValue eval_left = this.left.eval(sym_table);
-        MyIValue eval_right = this.right.eval(sym_table);
+    public MyIValue eval(MyIDictionary<String, MyIValue> sym_table, MyIHeap heap) throws ADTException, ExpressionException {
+        MyIValue eval_left = this.left.eval(sym_table, heap);
+        MyIValue eval_right = this.right.eval(sym_table, heap);
         if(!eval_left.getType().equals(new MyIntType())){
             throw new ExpressionException("Left expression is not of type int");
         }
