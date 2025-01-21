@@ -21,7 +21,7 @@ public class CloseRFileStatement implements MyIStatement {
 
     @Override
     public PrgState execute(PrgState prgState) throws StatementException, ADTException, ExpressionException {
-        MyIValue evalValue = exp.eval(prgState.getSymTable());
+        MyIValue evalValue = exp.eval(prgState.getSymTable(), prgState.getHeapTable());
         if (!evalValue.getType().equals(new StringType())) {
             throw new StatementException("Value type is not string");
         }
