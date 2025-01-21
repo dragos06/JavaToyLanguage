@@ -75,6 +75,20 @@ public class Interpreter {
         Controller controller8 = new Controller(repository8);
         controller8.add(statement8);
 
+        MyIStatement statement9 = new CompStatement(new VarDeclStatement("v", new MyIntType()),
+                new CompStatement(new VarDeclStatement("a", new RefType(new MyIntType())),
+                        new CompStatement(new AssignStatement("v", new ValueExpression(new MyIntValue(10))),
+                                new CompStatement(new HeapAllocationStatement("a", new ValueExpression(new MyIntValue(22))),
+                                        new CompStatement(new forkStatement(new CompStatement(new HeapWriting("a", new ValueExpression(new MyIntValue(30))),
+                                                new CompStatement(new AssignStatement("v", new ValueExpression(new MyIntValue(32))),
+                                                        new CompStatement(new PrintStatement(new VariableExpression("v")),
+                                                                new PrintStatement(new HeapReading(new VariableExpression("a"))))))),
+                                                new CompStatement(new PrintStatement(new VariableExpression("v")),
+                                                        new PrintStatement(new HeapReading(new VariableExpression("a")))))))));
+        IRepository repository9 = new Repository("log9.txt");
+        Controller controller9 = new Controller(repository9);
+        controller9.add(statement9);
+
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "exit"));
         menu.addCommand(new RunExampleCommand("1", statement1.toString(), controller1));
@@ -85,6 +99,7 @@ public class Interpreter {
         menu.addCommand(new RunExampleCommand("6", statement6.toString(), controller6));
         menu.addCommand(new RunExampleCommand("7", statement7.toString(), controller7));
         menu.addCommand(new RunExampleCommand("8", statement8.toString(), controller8));
+        menu.addCommand(new RunExampleCommand("9", statement9.toString(), controller9));
         menu.show();
     }
 }
