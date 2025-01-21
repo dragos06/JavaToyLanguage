@@ -1,9 +1,6 @@
 package controller;
 
-import exception.ADTException;
-import exception.ExpressionException;
-import exception.RepoException;
-import exception.StatementException;
+import exception.*;
 import model.adt.*;
 import model.state.PrgState;
 import model.statement.CompStatement;
@@ -17,10 +14,16 @@ import java.io.BufferedReader;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class Controller {
     private IRepository repository;
+    private ExecutorService executor;
 
     public Controller(IRepository repository) {
         this.repository = repository;
@@ -31,22 +34,21 @@ public class Controller {
         this.repository.add(my_state);
     }
 
-    public PrgState oneStep(PrgState prgState) throws StatementException, ADTException, ExpressionException {
-        MyIStack<MyIStatement> exeStack = prgState.getExeStack();
-        MyIStatement crtStatement = exeStack.pop();
-        return crtStatement.execute(prgState);
-    }
-
-    public void allStep() throws StatementException, ADTException, ExpressionException, RepoException {
-        PrgState prgState = this.repository.getCrtPrg();
-        this.repository.clearFile();
-        this.repository.logPrgStateExec();
-        while (!prgState.getExeStack().isEmpty()) {
-            this.oneStep(prgState);
-            this.repository.logPrgStateExec();
-            prgState.getHeapTable().setHeap(safeGarbageCollector(getAddrFromSymTable(prgState.getSymTable().getMap().values()), getAddrFromHeapTable(prgState.getHeapTable().getHeap().values()), prgState.getHeapTable().getHeap()));
-            this.repository.logPrgStateExec();
+    public void allStep() throws ControllerException {
+        this.executor = Executors.newFixedThreadPool(2);
+        List<PrgState> prgList = removeCompletedPrg(repository.getPrgList());
+        while (prgList.size() > 0) {
+            prgList.forEach(prg -> {
+                prg.getHeapTable().setHeap(safeGarbageCollector(getAddrFromSymTable(prg.getSymTable().getMap().values()), getAddrFromHeapTable(prg.getHeapTable().getHeap().values()), prg.getHeapTable().getHeap()));
+            });
+            try {
+                oneStepForAllPrg(prgList);
+            } catch (RuntimeException | InterruptedException e) {
+                throw new ControllerException(e.getMessage());
+            }
+            prgList = removeCompletedPrg(repository.getPrgList());
         }
+        executor.shutdownNow();
     }
 
     public Map<Integer, MyIValue> safeGarbageCollector(List<Integer> symTableAddr, List<Integer> heapTableAddr, Map<Integer, MyIValue> heapTable) {
@@ -75,4 +77,37 @@ public class Controller {
                 .collect(Collectors.toList());
     }
 
+    List<PrgState> removeCompletedPrg(List<PrgState> inPrgList) {
+        return inPrgList.stream().filter(PrgState::isNotCompleted).collect(Collectors.toList());
+    }
+
+    void oneStepForAllPrg(List<PrgState> prgList) throws InterruptedException {
+        prgList.forEach(prg -> {
+            try {
+                repository.logPrgStateExec(prg);
+            } catch (RepoException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        });
+
+        List<Callable<PrgState>> callList = prgList.stream().map((PrgState p) -> (Callable<PrgState>) (p::oneStep)).toList();
+
+        List<PrgState> newPrgList = executor.invokeAll(callList).stream().map(future -> {
+            try {
+                return future.get();
+            } catch (ExecutionException | InterruptedException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }).filter(Objects::nonNull).toList();
+
+        prgList.addAll(newPrgList);
+        prgList.forEach(prg -> {
+            try {
+                repository.logPrgStateExec(prg);
+            } catch (RepoException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        });
+        repository.setPrgList(prgList);
+    }
 }
