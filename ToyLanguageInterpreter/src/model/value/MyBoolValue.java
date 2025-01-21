@@ -10,6 +10,7 @@ public class MyBoolValue implements MyIValue {
         this.value = value;
     }
 
+    @Override
     public boolean equals(MyIValue other) {
         return other instanceof MyBoolValue && ((MyBoolValue) other).value == this.value;
     }
