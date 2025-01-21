@@ -17,7 +17,10 @@ public class VarDeclStatement implements MyIStatement {
 
     @Override
     public PrgState execute(PrgState prgState) throws StatementException, ADTException, ExpressionException {
-        // TO CHECK IF VARIABLE ALREADY EXISTS
+        if(prgState.getSymTable().contains(this.name)){
+            throw new StatementException("Variable already exists");
+        }
+
         prgState.getSymTable().insert(this.name, this.type.getDefaultValue());
         return prgState;
     }
