@@ -29,6 +29,14 @@ public class Controller {
         this.repository = repository;
     }
 
+    public void clearFile() throws ControllerException {
+        try {
+            this.repository.clearFile();
+        } catch (RepoException e) {
+            throw new ControllerException("File not found");
+        }
+    }
+
     public void add(MyIStatement statement) {
         PrgState my_state = new PrgState(new MyDictionary<String, MyIValue>(), new MyStack<MyIStatement>(), new MyList<String>(), statement, new FileTable<StringValue, BufferedReader>(), new MyHeap());
         this.repository.add(my_state);
