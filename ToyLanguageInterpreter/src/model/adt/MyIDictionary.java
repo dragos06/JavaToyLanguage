@@ -19,4 +19,6 @@ public interface MyIDictionary<K, V> {
     String toString();
 
     Set<K> getKeys();
+
+    MyIDictionary<K, V> deepCopy();
 }
