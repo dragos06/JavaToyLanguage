@@ -4,11 +4,11 @@ import exception.ADTException;
 import exception.StatementException;
 import model.state.PrgState;
 
-public class CompStatement implements MyIStatement{
+public class CompStatement implements MyIStatement {
     private MyIStatement statement1;
     private MyIStatement statement2;
 
-    public CompStatement(MyIStatement statement1, MyIStatement statement2){
+    public CompStatement(MyIStatement statement1, MyIStatement statement2) {
         this.statement1 = statement1;
         this.statement2 = statement2;
     }
@@ -18,7 +18,7 @@ public class CompStatement implements MyIStatement{
         prgState.getExeStack().push(statement2);
         prgState.getExeStack().push(statement1);
 
-        return prgState;
+        return null;
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CompStatement implements MyIStatement{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return statement1.toString() + ";" + statement2.toString();
     }
 }
