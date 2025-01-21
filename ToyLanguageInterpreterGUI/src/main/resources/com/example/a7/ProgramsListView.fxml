@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.a7.scenes.ProgramsListViewController">
+   <children>
+      <VBox alignment="CENTER" prefHeight="444.0" prefWidth="248.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label text="Programs" />
+            <ListView fx:id="listView" VBox.vgrow="ALWAYS" />
+            <Button fx:id="runButton" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" text="Run Program" textAlignment="CENTER" textOverrun="CLIP" />
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
